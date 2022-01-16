@@ -3,6 +3,7 @@ import '../styles/utilities.css';
 import '../styles/detail.css';
 import '../styles/checkout.css';
 import '../styles/complete-checkout.css';
+import '../styles/navbar-log-in.css';
 
 import '../styles/sign-in.css';
 import '../styles/sign-up.css';
