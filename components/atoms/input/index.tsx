@@ -1,4 +1,4 @@
-interface InputProps {
+export interface InputProps {
   label: string;
   type: 'text' | 'hidden' | 'email' | 'password' | 'tel';
   value: string;

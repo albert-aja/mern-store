@@ -1,14 +1,12 @@
-interface StepItemProps {
-  icon: 'step1' | 'step2' | 'step3';
+export interface StepCardProps {
+  icon: "step1" | "step2" | "step3";
   title: string;
   desc1: string;
   desc2: string;
 }
 
-export default function StepCard(props: StepItemProps) {
-  const {
-    icon, title, desc1, desc2,
-  } = props;
+export default function StepCard(props: StepCardProps) {
+  const { icon, title, desc1, desc2 } = props;
   return (
     <div className="col-lg-4">
       <div className="card feature-card border-0">
