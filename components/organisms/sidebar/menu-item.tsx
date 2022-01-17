@@ -1,14 +1,18 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import cx from 'classnames';
 
 interface MenuItemProps {
   icon: string;
   text: string;
   active?: boolean;
+  link: string;
 }
 
 export default function menuItem(props: Partial<MenuItemProps>) {
-  const { icon, text, active } = props;
+  const {
+    icon, text, active, link,
+  } = props;
   const classItem = cx({
     item: true,
     'mb-30': true,
@@ -26,9 +30,9 @@ export default function menuItem(props: Partial<MenuItemProps>) {
         />
       </div>
       <p className="item-title m-0">
-        <a href="/#" className="text-lg text-decoration-none">
-          {text}
-        </a>
+        <Link href={link}>
+          <a className="text-lg text-decoration-none">{text}</a>
+        </Link>
       </p>
     </div>
   );
