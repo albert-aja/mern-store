@@ -1,21 +1,18 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image";
+import Link from "next/link";
 
 export interface GameCardProps {
-  link: string;
   image: string;
   game: string;
-  device: string;
+  category: string;
 }
 
 export default function gameCard(props: GameCardProps) {
-  const {
-    link, image, game, device,
-  } = props;
+  const { image, game, category } = props;
 
   return (
     <div className="featured-game-card position-relative">
-      <Link href={link}>
+      <Link href="/detail">
         <a>
           <div className="blur-sharp">
             <Image
@@ -38,7 +35,7 @@ export default function gameCard(props: GameCardProps) {
               </div>
               <div>
                 <p className="fw-semibold text-white text-xl m-0">{game}</p>
-                <p className="fw-light text-white m-0">{device}</p>
+                <p className="fw-light text-white m-0">{category}</p>
               </div>
             </div>
           </div>
