@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 export interface GameCardProps {
   link: string;
@@ -9,7 +9,9 @@ export interface GameCardProps {
 }
 
 export default function gameCard(props: GameCardProps) {
-  const { link, image, game, device } = props;
+  const {
+    link, image, game, device,
+  } = props;
 
   return (
     <div className="featured-game-card position-relative">
