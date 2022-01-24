@@ -1,6 +1,46 @@
-import Image from 'next/image';
+import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
+import { setSignUp } from "../services/auth";
+import { getGameCategory } from "../services/player";
 
 export default function signUpPhoto() {
+  const [categories, setCategories] = useState([]);
+  const [favorit, setFavorit] = useState("");
+  const [image, setImage] = useState("");
+  const [imagePreview, setImagePreview] = useState("/icon/upload.svg");
+  const [localForm, setLocalForm] = useState({
+    name: "",
+    email: "",
+  });
+
+  const getGameCategoryData = useCallback(async () => {
+    const data = await getGameCategory();
+    setCategories(data);
+    setFavorit(data[0]._id);
+  }, [getGameCategory]);
+
+  useEffect(() => {
+    getGameCategoryData();
+  }, []);
+
+  useEffect(() => {
+    setLocalForm(JSON.parse(localStorage.getItem("userForm")));
+  }, []);
+
+  const onSubmit = async () => {
+    const form = JSON.parse(await localStorage.getItem("userForm"));
+    const data = new FormData();
+
+    data.append("avatar", image);
+    data.append("name", form.name);
+    data.append("email", form.email);
+    data.append("password", form.password);
+    data.append("favorit", favorit);
+
+    const result = await setSignUp(data);
+    console.log(result);
+  };
+
   return (
     <section className="sign-up-photo mx-auto pt-lg-227 pb-lg-227 pt-130 pb-50">
       <div className="container mx-auto">
@@ -11,25 +51,31 @@ export default function signUpPhoto() {
                 <div className="image-upload text-center">
                   <label htmlFor="avatar">
                     <Image
-                      src="/icon/upload.svg"
+                      src={imagePreview}
                       width={120}
                       height={120}
                       alt="upload"
+                      className="img-preview"
                     />
                   </label>
                   <input
-                    id="avatar"
                     type="file"
+                    id="avatar"
                     name="avatar"
                     accept="image/png, image/jpeg"
+                    onChange={(event) => {
+                      const img = event.target.files[0];
+                      setImagePreview(URL.createObjectURL(img));
+                      return setImage(img);
+                    }}
                   />
                 </div>
               </div>
               <h2 className="fw-bold text-xl text-center color-palette-1 m-0">
-                Shayna Anne
+                {localForm.name}
               </h2>
               <p className="text-lg text-center color-palette-1 m-0">
-                shayna@anne.com
+                {localForm.email}
               </p>
               <div className="pt-50 pb-50">
                 <label
@@ -39,30 +85,30 @@ export default function signUpPhoto() {
                   Favorite Game
                 </label>
                 <select
-                  id="category"
-                  name="category"
                   className="form-select d-block w-100 rounded-pill text-lg"
-                  aria-label="Favorite Game"
+                  value={favorit}
+                  onChange={(event) => setFavorit(event.target.value)}
                 >
                   <option value="" disabled selected>
                     Select Category
                   </option>
-                  <option value="fps">First Person Shoter</option>
-                  <option value="rpg">Role Playing Game</option>
-                  <option value="arcade">Arcade</option>
-                  <option value="sport">Sport</option>
+                  {categories.map((category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
 
             <div className="button-group d-flex flex-column mx-auto">
-              <a
+              <button
                 className="btn btn-create fw-medium text-lg text-white rounded-pill mb-16"
-                href="/sign-up-photo-success.html"
-                role="button"
+                type="button"
+                onClick={onSubmit}
               >
                 Create My Account
-              </a>
+              </button>
               <a
                 className="btn btn-tnc text-lg color-palette-1 text-decoration-underline pt-15"
                 href="#"

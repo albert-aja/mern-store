@@ -2,17 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 
 export interface GameCardProps {
+  id: string;
   image: string;
   game: string;
   category: string;
 }
 
 export default function gameCard(props: GameCardProps) {
-  const { image, game, category } = props;
+  const {
+    id, image, game, category,
+  } = props;
 
   return (
     <div className="featured-game-card position-relative">
-      <Link href="/detail">
+      <Link href={`/detail/${id}`}>
         <a>
           <div className="blur-sharp">
             <Image

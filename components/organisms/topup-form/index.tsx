@@ -1,6 +1,13 @@
-import TopUpCard from '../../molecules/topup-card';
+import { NominalsType, PaymentTypes } from "../../../services/datatypes";
+import TopUpCard from "../../molecules/topup-card";
 
-export default function topUpForm() {
+interface TopUpFormProps {
+  nominals: NominalsType[];
+  payments: PaymentTypes[];
+}
+
+export default function topUpForm(props: TopUpFormProps) {
+  const { nominals, payments } = props;
   return (
     <form action="./checkout.html" method="POST">
       <div className="pt-md-50 pt-30">
@@ -26,36 +33,18 @@ export default function topUpForm() {
           Nominal Top Up
         </p>
         <div className="row justify-content-between">
-          <TopUpCard
-            value="topup1"
-            mainText="125"
-            addText="Gold"
-            desc="Rp. 1.200.000"
-          />
-          <TopUpCard
-            value="topup2"
-            mainText="250"
-            addText="Gold"
-            desc="Rp. 2.000.000"
-          />
-          <TopUpCard
-            value="topup3"
-            mainText="400"
-            addText="Gold"
-            desc="Rp. 2.800.000"
-          />
-          <TopUpCard
-            value="topup4"
-            mainText="500"
-            addText="Gold"
-            desc="Rp. 3.200.000"
-          />
-          <TopUpCard
-            value="topup5"
-            mainText="750"
-            addText="Gold"
-            desc="Rp. 4.000.000"
-          />
+          {nominals.map((nominal) => (
+            <TopUpCard
+              key={nominal._id}
+              value={nominal._id}
+              mainText={nominal.coinQuantity}
+              addText={nominal.coinName}
+              desc={`Rp. ${nominal.price
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`}
+              radioName="nominal"
+            />
+          ))}
           <div className="col-lg-4 col-sm-6" />
         </div>
       </div>
@@ -65,12 +54,16 @@ export default function topUpForm() {
         </p>
         <fieldset id="paymentMethod">
           <div className="row justify-content-between">
-            <TopUpCard
-              value="transfer"
-              mainText="Transfer"
-              desc="Worldwide Available"
-            />
-            <TopUpCard value="visa" mainText="VISA" desc="Credit Card" />
+            {payments.map((payment) =>
+              payment.banks.map((bank) => (
+                <TopUpCard
+                  value={bank._id}
+                  mainText={payment.type}
+                  desc={bank.bankName}
+                  radioName="paymentMethod"
+                />
+              ))
+            )}
             <div className="col-lg-4 col-sm-6" />
           </div>
         </fieldset>

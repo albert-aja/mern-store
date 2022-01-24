@@ -1,8 +1,8 @@
-import Menu from './text-menu';
-import Auth from './auth';
-import ToggleMenu from './toggle-menu';
+import Menu from "./text-menu";
+import Auth from "./auth";
+import ToggleMenu from "./toggle-menu";
 
-import Logo from '../../atoms/logo';
+import Logo from "../../atoms/logo";
 
 export default function navbar() {
   return (
@@ -20,7 +20,7 @@ export default function navbar() {
               <Menu title="Rewards" />
               <Menu title="Discover" />
               <Menu title="Global Rank" />
-              <Auth isLogin />
+              <Auth />
             </ul>
           </div>
         </div>

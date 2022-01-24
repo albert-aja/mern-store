@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import GameCard from "../../molecules/game-card";
-import axios from "axios";
+import { getFeaturedGame } from "../../../services/player";
+import { GameItemTypes } from "../../../services/datatypes";
 
 export default function FeaturedGames() {
   const [gameList, setGameList] = useState([]);
+  const getFeaturedGameList = useCallback(async () => {
+    const data = await getFeaturedGame();
+    setGameList(data);
+  }, [getFeaturedGame]);
 
-  useEffect(async () => {
-    const res_data = await axios.get(
-      "https://mern-storegg.herokuapp.com/api/v1/players/landingpage"
-    );
-    setGameList(res_data.data.data);
+  useEffect(() => {
+    getFeaturedGameList();
   }, []);
+
+  const IMG_PATH = process.env.NEXT_PUBLIC_IMG;
 
   return (
     <section className="featured-game pt-50 pb-50">
@@ -23,10 +27,11 @@ export default function FeaturedGames() {
           className="d-flex flex-row flex-lg-wrap overflow-setting justify-content-lg-between gap-lg-3 gap-4"
           data-aos="fade-up"
         >
-          {gameList.map((item) => (
+          {gameList.map((item: GameItemTypes) => (
             <GameCard
               key={item._id}
-              image={`https://mern-storegg.herokuapp.com/uploads/${item.thumbnail}`}
+              id={item._id}
+              image={`${IMG_PATH}/${item.thumbnail}`}
               game={item.name}
               category={item.category.name}
             />

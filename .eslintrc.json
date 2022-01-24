@@ -20,6 +20,11 @@
     ],
     "react/react-in-jsx-scope": "off",
     "jsx-a11y/anchor-is-valid": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "linebreak-style": "off",
+    "quotes": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "no-underscore-dangle": "off",
+    "jsx-a11y/label-has-associated-control": "off"
   }
 }
