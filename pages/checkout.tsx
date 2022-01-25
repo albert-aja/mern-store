@@ -1,9 +1,16 @@
-import Logo from '../components/atoms/logo';
-import CheckoutItem from '../components/organisms/checkout-item';
-import CheckoutDetail from '../components/organisms/checkout-detail';
-import CheckoutConfirmation from '../components/organisms/checkout-confirmation';
+import jwtDecode from "jwt-decode";
+import Logo from "../components/atoms/logo";
+import CheckoutItem from "../components/organisms/checkout-item";
+import CheckoutDetail from "../components/organisms/checkout-detail";
+import CheckoutConfirmation from "../components/organisms/checkout-confirmation";
+import { JWTPayloadTypes, UserTypes } from "../../../services/datatypes";
 
-export default function checkout() {
+interface CheckoutProps {
+  user: UserTypes;
+}
+
+export default function checkout(props: CheckoutProps) {
+  const { user } = props;
   return (
     <section className="checkout mx-auto pt-md-100 pb-md-145 pt-30 pb-30">
       <div className="container-fluid">
@@ -25,4 +32,30 @@ export default function checkout() {
       </div>
     </section>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = req.cookies;
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/sign-in",
+        permanent: false,
+      },
+    };
+  }
+
+  const jwtToken = Buffer.from(token, "base64").toString("utf8");
+  const payload: JWTPayloadTypes = jwtDecode(jwtToken);
+  const userPl: UserTypes = payload.player;
+  const IMG_PATH = process.env.NEXT_PUBLIC_IMG;
+
+  userPl.avatar = `${IMG_PATH}/${userPl.avatar}`;
+
+  return {
+    props: {
+      user: userPl,
+    },
+  };
 }

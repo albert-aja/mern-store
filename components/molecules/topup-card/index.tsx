@@ -6,14 +6,16 @@ interface topUpCardProps {
   addText?: string;
   desc: string | number;
   radioName: string;
+  onChange?: () => void;
 }
 
 export default function topUpCard(props: Partial<topUpCardProps>) {
-  const { value, mainText, addText, desc, radioName } = props;
+  const { value, mainText, addText, desc, radioName, onChange } = props;
   return (
     <label
       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
       htmlFor={value}
+      onChange={onChange}
     >
       <input
         className="d-none"

@@ -2,6 +2,8 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { setSignUp } from "../services/auth";
 import { getGameCategory } from "../services/player";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 export default function signUpPhoto() {
   const [categories, setCategories] = useState([]);
@@ -12,6 +14,8 @@ export default function signUpPhoto() {
     name: "",
     email: "",
   });
+
+  const router = useRouter();
 
   const getGameCategoryData = useCallback(async () => {
     const data = await getGameCategory();
@@ -24,11 +28,11 @@ export default function signUpPhoto() {
   }, []);
 
   useEffect(() => {
-    setLocalForm(JSON.parse(localStorage.getItem("userForm")));
+    setLocalForm(JSON.parse(localStorage.getItem("userForm")!));
   }, []);
 
   const onSubmit = async () => {
-    const form = JSON.parse(await localStorage.getItem("userForm"));
+    const form = JSON.parse(await localStorage.getItem("userForm")!);
     const data = new FormData();
 
     data.append("avatar", image);
@@ -37,8 +41,19 @@ export default function signUpPhoto() {
     data.append("password", form.password);
     data.append("favorit", favorit);
 
-    const result = await setSignUp(data);
-    console.log(result);
+    const res = await setSignUp(data);
+
+    if (res.error) {
+      toast.error(res.message, {
+        theme: "colored",
+      });
+    } else {
+      toast.success("Registrasi Berhasil", {
+        theme: "colored",
+      });
+      router.push("sign-up-success");
+      localStorage.removeItem("userForm");
+    }
   };
 
   return (

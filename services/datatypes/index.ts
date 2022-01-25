@@ -12,7 +12,7 @@ export interface GameItemTypes {
   category: CategoryTypes;
 }
 
-export interface NominalsType {
+export interface NominalsTypes {
   _id: string;
   coinQuantity: number;
   coinName: string;
@@ -26,9 +26,27 @@ export interface BanksTypes {
   noRek: string;
 }
 
-export interface PaymentTypes {
+export interface PaymentsTypes {
   _id: string;
   type: string;
   status: string;
   banks: BanksTypes[];
+}
+
+export interface LoginTypes {
+  email: string;
+  password: string;
+}
+
+export interface UserTypes {
+  id: string;
+  username: string;
+  email: string;
+  name: string;
+  avatar: string;
+}
+
+export interface JWTPayloadTypes {
+  player: UserTypes;
+  iat: number;
 }

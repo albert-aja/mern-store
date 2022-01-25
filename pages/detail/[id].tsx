@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect, useCallback, useState } from "react";
 import Navbar from "../../components/organisms/navbar/index";
 import Footer from "../../components/organisms/footer/index";
-
 import TopUpForm from "../../components/organisms/topup-form";
 import TopUpItem from "../../components/organisms/topup-item";
 import { getDetailVoucher } from "../../services/player";
@@ -21,8 +20,9 @@ export default function detail() {
 
   const getVoucherDetail = useCallback(async (id) => {
     const data = await getDetailVoucher(id);
-    console.log(data);
+
     setDataItem(data.voucher);
+    localStorage.setItem("dataItem", JSON.stringify(data.voucher));
     setNominals(data.voucher.nominals);
     setPayment(data.payment);
   }, []);

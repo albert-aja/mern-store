@@ -1,30 +1,73 @@
-import { NominalsType, PaymentTypes } from "../../../services/datatypes";
+import { useState } from "react";
+import {
+  BanksTypes,
+  NominalsTypes,
+  PaymentsTypes,
+} from "../../../services/datatypes";
 import TopUpCard from "../../molecules/topup-card";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 interface TopUpFormProps {
-  nominals: NominalsType[];
-  payments: PaymentTypes[];
+  nominals: NominalsTypes[];
+  payments: PaymentsTypes[];
 }
 
 export default function topUpForm(props: TopUpFormProps) {
+  const [verifyId, setVerifyId] = useState("");
+  const [bankAccName, setBankAccName] = useState("");
+  const [nominalItem, setNominalItem] = useState({});
+  const [paymentItem, setPaymentItem] = useState({});
   const { nominals, payments } = props;
+  const router = useRouter();
+
+  const onNominalItemChanged = (data: NominalsTypes) => {
+    setNominalItem(data);
+  };
+
+  const onPaymentItemChanged = (payment: PaymentsTypes, bank: BanksTypes) => {
+    const data = {
+      payment,
+      bank,
+    };
+    setPaymentItem(data);
+  };
+
+  const onSubmit = () => {
+    if (
+      verifyId === "" ||
+      bankAccName === "" ||
+      Object.keys(nominalItem).length === 0 ||
+      Object.keys(paymentItem).length === 0
+    ) {
+      toast.error("Mohon isi semua data!", {
+        theme: "colored",
+      });
+    } else {
+      const data = {
+        verifyId,
+        bankAccName,
+        nominalItem,
+        paymentItem,
+      };
+      localStorage.setItem("data-topup", JSON.stringify(data));
+      router.push("/checkout");
+    }
+  };
+
   return (
     <form action="./checkout.html" method="POST">
       <div className="pt-md-50 pt-30">
         <div className="">
-          <label
-            htmlFor="ID"
-            className="form-label text-lg fw-medium color-palette-1 mb-10"
-          >
+          <label className="form-label text-lg fw-medium color-palette-1 mb-10">
             Verify ID
           </label>
           <input
             type="text"
             className="form-control rounded-pill text-lg"
-            id="ID"
-            name="ID"
-            aria-describedby="verifyID"
             placeholder="Enter your ID"
+            value={verifyId}
+            onChange={(event) => setVerifyId(event.target.value)}
           />
         </div>
       </div>
@@ -43,6 +86,7 @@ export default function topUpForm(props: TopUpFormProps) {
                 .toString()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`}
               radioName="nominal"
+              onChange={() => onNominalItemChanged(nominal)}
             />
           ))}
           <div className="col-lg-4 col-sm-6" />
@@ -61,6 +105,7 @@ export default function topUpForm(props: TopUpFormProps) {
                   mainText={payment.type}
                   desc={bank.bankName}
                   radioName="paymentMethod"
+                  onChange={() => onPaymentItemChanged(payment, bank)}
                 />
               ))
             )}
@@ -69,29 +114,25 @@ export default function topUpForm(props: TopUpFormProps) {
         </fieldset>
       </div>
       <div className="pb-50">
-        <label
-          htmlFor="bankAccount"
-          className="form-label text-lg fw-medium color-palette-1 mb-10"
-        >
+        <label className="form-label text-lg fw-medium color-palette-1 mb-10">
           Bank Account Name
         </label>
         <input
           type="text"
           className="form-control rounded-pill text-lg"
-          id="bankAccount"
-          name="bankAccount"
-          aria-describedby="bankAccount"
           placeholder="Enter your Bank Account Name"
+          value={bankAccName}
+          onChange={(event) => setBankAccName(event.target.value)}
         />
       </div>
       <div className="d-sm-block d-flex flex-column w-100">
-        <a
-          href="checkout"
-          type="submit"
+        <button
+          type="button"
           className="btn btn-submit rounded-pill fw-medium text-white border-0 text-lg"
+          onClick={onSubmit}
         >
           Continue
-        </a>
+        </button>
       </div>
     </form>
   );
