@@ -12,7 +12,7 @@ export default function checkoutItem() {
 
   useEffect(() => {
     setDataItem(JSON.parse(localStorage.getItem("dataItem")!));
-  });
+  }, []);
 
   return (
     <div className="game-checkout d-flex flex-row align-items-center pt-md-50 pb-md-50 pt-30 pb-30">

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function completeCheckout() {
   return (
     <section className="complete-checkout mx-auto pt-lg-145 pb-lg-145 pt-100 pb-80">
@@ -229,11 +231,7 @@ export default function completeCheckout() {
                 y2="269.213"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop
-                  offset="0.00289017"
-                  stopColor="#606673"
-                  stopOpacity="0"
-                />
+                <stop offset="0.00289017" stopColor="#606673" stopOpacity="0" />
                 <stop offset="1" stopColor="#373C47" />
               </linearGradient>
               <linearGradient
@@ -259,19 +257,18 @@ export default function completeCheckout() {
           </h2>
           <p className="text-lg text-center color-palette-1 m-0">
             Kami akan periksa pembayaran Anda
-            <br className="d-sm-block d-none" />
-            {' '}
-            dan menghubungi via WhatsApp
+            <br className="d-sm-block d-none" /> dan menghubungi via WhatsApp
           </p>
         </div>
         <div className="button-group d-flex flex-column mx-auto">
-          <a
-            className="btn btn-dashboard fw-medium text-lg text-white rounded-pill mb-16"
-            href="../member/overview.html"
-            role="button"
-          >
-            My Dashboard
-          </a>
+          <Link href="/member">
+            <a
+              className="btn btn-dashboard fw-medium text-lg text-white rounded-pill mb-16"
+              role="button"
+            >
+              My Dashboard
+            </a>
+          </Link>
           <a
             className="btn btn-whatsapp fw-medium text-lg color-palette-1 rounded-pill"
             href="/#"
