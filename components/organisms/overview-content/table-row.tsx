@@ -1,24 +1,23 @@
-import cx from 'classnames';
+import cx from "classnames";
+import NumberFormat from "react-number-format";
 
 interface tableRowProps {
-  gameThumb: string;
+  image: string;
   gameName: string;
   category: string;
-  gameItem: number;
+  gameItem: string;
   price: number;
-  status: 'Pending' | 'Success' | 'Failed';
+  status: string;
 }
 
 export default function tableRow(props: tableRowProps) {
-  const {
-    gameThumb, gameName, category, gameItem, price, status,
-  } = props;
+  const { image, gameName, category, gameItem, price, status } = props;
 
   const statusClass = cx({
-    'float-start icon-status': true,
-    pending: status === 'Pending',
-    success: status === 'Success',
-    failed: status === 'Failed',
+    "float-start icon-status": true,
+    pending: status === "pending",
+    success: status === "success",
+    failed: status === "failed",
   });
 
   return (
@@ -26,7 +25,7 @@ export default function tableRow(props: tableRowProps) {
       <th scope="row">
         <img
           className="float-start me-3 mb-lg-0 mb-3"
-          src={gameThumb}
+          src={image}
           width={80}
           height={60}
           alt=""
@@ -41,14 +40,18 @@ export default function tableRow(props: tableRowProps) {
         </div>
       </th>
       <td>
-        <p className="fw-medium color-palette-1 m-0">
-          {gameItem}
-          {' '}
-          Gold
-        </p>
+        <p className="fw-medium color-palette-1 m-0">{gameItem}</p>
       </td>
       <td>
-        <p className="fw-medium text-start color-palette-1 m-0">{price}</p>
+        <p className="fw-medium text-start color-palette-1 m-0">
+          <NumberFormat
+            value={price}
+            prefix="Rp. "
+            displayType="text"
+            thousandSeparator="."
+            decimalSeparator=","
+          />
+        </p>
       </td>
       <td>
         <div>

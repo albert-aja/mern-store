@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { setSignUp } from "../services/auth";
-import { getGameCategory } from "../services/player";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { setSignUp } from "../services/auth";
+import { getGameCategory } from "../services/player";
 
 export default function signUpPhoto() {
   const [categories, setCategories] = useState([]);

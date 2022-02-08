@@ -1,7 +1,31 @@
-import Category from './category';
-import TableContent from './table-content';
+import { toast } from "react-toastify";
+import { useCallback, useEffect, useState } from "react";
+import Category from "./category";
+import TableContent from "./table-content";
+import { getMemberOverview } from "../../../services/member";
+import { TopUpCategory } from "../../../services/datatypes";
 
 export default function overviewContent() {
+  const [count, setCount] = useState([]);
+  const [data, setData] = useState([]);
+
+  const getMemberOverviewApi = useCallback(async () => {
+    const response = await getMemberOverview();
+
+    if (response.error) {
+      toast.error(response.message, {
+        theme: "colored",
+      });
+    } else {
+      setCount(response.data.count);
+      setData(response.data.history);
+    }
+  }, []);
+
+  useEffect(() => {
+    getMemberOverviewApi();
+  }, []);
+
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
@@ -12,21 +36,13 @@ export default function overviewContent() {
           </p>
           <div className="main-content">
             <div className="row">
-              <Category icon="desktop" nominal={18000500}>
-                Game
-                <br />
-                Desktop
-              </Category>
-              <Category icon="mobile" nominal={8455000}>
-                Game
-                <br />
-                Mobile
-              </Category>
-              <Category icon="desktop" nominal={5000000}>
-                Other
-                <br />
-                Categories
-              </Category>
+              {count.map((item: TopUpCategory) => (
+                <Category key={item._id} icon={item.name} nominal={item.value}>
+                  Game
+                  <br />
+                  {item.name}
+                </Category>
+              ))}
             </div>
           </div>
         </div>
@@ -35,7 +51,7 @@ export default function overviewContent() {
             Latest Transactions
           </p>
           <div className="main-content main-content-table overflow-auto">
-            <TableContent />
+            <TableContent data={data} />
           </div>
         </div>
       </div>

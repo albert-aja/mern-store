@@ -1,6 +1,14 @@
-import TableRow from './transaction-row';
+import { HistoryTransactionTypes } from "../../../services/datatypes";
+import TableRow from "./transaction-row";
 
-export default function transactionTable() {
+interface transactionTableProps {
+  data: Array<any>;
+}
+
+export default function transactionTable(props: transactionTableProps) {
+  const { data } = props;
+  const IMG = process.env.NEXT_PUBLIC_IMG;
+
   return (
     <table className="table table-borderless">
       <thead>
@@ -15,38 +23,18 @@ export default function transactionTable() {
         </tr>
       </thead>
       <tbody id="list_status_item">
-        <TableRow
-          image="/img/overview-1.png"
-          gameName="Mobile Legends"
-          category="Mobile"
-          gameItem={200}
-          price={2000000}
-          status="Pending"
-        />
-        <TableRow
-          image="/img/overview-2.png"
-          gameName="Call of Duty:Modern"
-          category="Desktop"
-          gameItem={140}
-          price={740000}
-          status="Success"
-        />
-        <TableRow
-          image="/img/overview-3.png"
-          gameName="Clash of Clans"
-          category="Desktop"
-          gameItem={200}
-          price={1000000}
-          status="Failed"
-        />
-        <TableRow
-          image="/img/overview-4.png"
-          gameName="The Royal Game"
-          category="Mobile"
-          gameItem={400}
-          price={2200000}
-          status="Pending"
-        />
+        {data.map((item: HistoryTransactionTypes) => (
+          <TableRow
+            key={item._id}
+            id={item._id}
+            image={`${IMG}/${item.historyVoucherTopup.thumbnail}`}
+            gameName={item.historyVoucherTopup.gameName}
+            category={item.historyVoucherTopup.category}
+            gameItem={`${item.historyVoucherTopup.coinQuantity} ${item.historyVoucherTopup.coinName}`}
+            price={item.value}
+            status={item.status}
+          />
+        ))}
       </tbody>
     </table>
   );

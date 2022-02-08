@@ -1,7 +1,37 @@
-import TransactionTable from './transaction-table';
-import ButtonTab from './button-tab';
+import { useEffect, useCallback, useState } from "react";
+import { toast } from "react-toastify";
+import NumberFormat from "react-number-format";
+import ButtonTab from "./button-tab";
+import TransactionTable from "./transaction-table";
+import { getMemberTransaction } from "../../../services/member";
 
 export default function transactionContent() {
+  const [total, setTotal] = useState(0);
+  const [data, setData] = useState([]);
+  const [tab, setTab] = useState("all");
+
+  const getMemberTransactionApi = useCallback(async (value) => {
+    const response = await getMemberTransaction(value);
+
+    if (response.error) {
+      toast.error(response.message, {
+        theme: "colored",
+      });
+    } else {
+      setTotal(response.data.total);
+      setData(response.data.data);
+    }
+  }, []);
+
+  useEffect(() => {
+    getMemberTransactionApi("all");
+  }, []);
+
+  const onTabClicked = (value) => {
+    setTab(value);
+    getMemberTransactionApi(value);
+  };
+
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
@@ -11,16 +41,38 @@ export default function transactionContent() {
         <div className="mb-30">
           <p className="text-lg color-palette-2 mb-12">You’ve spent</p>
           <h3 className="text-5xl fw-medium color-palette-1">
-            Rp 4.518.000.500
+            <NumberFormat
+              value={total}
+              prefix="Rp. "
+              displayType="text"
+              thousandSeparator="."
+              decimalSeparator=","
+            />
           </h3>
         </div>
         <div className="row mt-30 mb-20">
           <div className="col-lg-12 col-12 main-content">
             <div id="list_status_title">
-              <ButtonTab title="All Trx" active />
-              <ButtonTab title="Success" />
-              <ButtonTab title="Pending" />
-              <ButtonTab title="Failed" />
+              <ButtonTab
+                onClick={() => onTabClicked("all")}
+                title="All Trx"
+                active={tab === "all"}
+              />
+              <ButtonTab
+                onClick={() => onTabClicked("success")}
+                title="Success"
+                active={tab === "success"}
+              />
+              <ButtonTab
+                onClick={() => onTabClicked("pending")}
+                title="Pending"
+                active={tab === "pending"}
+              />
+              <ButtonTab
+                onClick={() => onTabClicked("failed")}
+                title="Failed"
+                active={tab === "failed"}
+              />
             </div>
           </div>
         </div>
@@ -29,7 +81,7 @@ export default function transactionContent() {
             Latest Transactions
           </p>
           <div className="main-content main-content-table overflow-auto">
-            <TransactionTable />
+            <TransactionTable data={data} />
           </div>
         </div>
       </div>

@@ -1,14 +1,13 @@
-import Image from 'next/image';
-import Row from './row';
+import Image from "next/image";
+import Row from "./row";
 
 interface DetailProps {
   id: string;
 }
 
 export default function transactionDetail(props: DetailProps) {
-  const {
-    id, image, category, status,
-  } = props;
+  const { id, image, category, status } = props;
+
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
@@ -35,9 +34,7 @@ export default function transactionDetail(props: DetailProps) {
                   <div>
                     <p className="fw-bold text-xl color-palette-1 mb-10">
                       Mobile Legends:
-                      <br />
-                      {' '}
-                      The New Battle 2021
+                      <br /> The New Battle 2021
                     </p>
                     <p className="color-palette-2 m-0">Category: Mobile</p>
                   </div>

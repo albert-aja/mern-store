@@ -1,6 +1,14 @@
-import TableRow from './table-row';
+import { HistoryTransactionTypes } from "../../../services/datatypes";
+import TableRow from "./table-row";
 
-export default function tableContent() {
+interface tableContentProps {
+  data: Array<any>;
+}
+
+export default function tableContent(props: tableContentProps) {
+  const { data } = props;
+  const IMG = process.env.NEXT_PUBLIC_IMG;
+
   return (
     <table className="table table-borderless">
       <thead>
@@ -14,38 +22,17 @@ export default function tableContent() {
         </tr>
       </thead>
       <tbody>
-        <TableRow
-          gameThumb="/img/overview-1.png"
-          gameName="Mobile Legend"
-          category="Desktop"
-          gameItem={150}
-          price={1200000}
-          status="Success"
-        />
-        <TableRow
-          gameThumb="/img/overview-2.png"
-          gameName="Call of Duty:Modern"
-          category="Desktop"
-          gameItem={250}
-          price={2200000}
-          status="Pending"
-        />
-        <TableRow
-          gameThumb="/img/overview-3.png"
-          gameName="Clash of Clans"
-          category="Desktop"
-          gameItem={180}
-          price={1250000}
-          status="Failed"
-        />
-        <TableRow
-          gameThumb="/img/overview-4.png"
-          gameName="The Royal Game"
-          category="Desktop"
-          gameItem={50}
-          price={200000}
-          status="Success"
-        />
+        {data.map((item: HistoryTransactionTypes) => (
+          <TableRow
+            key={item._id}
+            image={`${IMG}/${item.historyVoucherTopup.thumbnail}`}
+            gameName={item.historyVoucherTopup.gameName}
+            category={item.historyVoucherTopup.category}
+            gameItem={`${item.historyVoucherTopup.coinQuantity} ${item.historyVoucherTopup.coinName}`}
+            price={item.value}
+            status={item.status}
+          />
+        ))}
       </tbody>
     </table>
   );

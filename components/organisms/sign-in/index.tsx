@@ -1,10 +1,10 @@
-import Logo from "../../atoms/logo";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { setLogin } from "../../../services/auth";
 import Cookies from "js-cookie";
+import { setLogin } from "../../../services/auth";
+import Logo from "../../atoms/logo";
 
 export default function signIn() {
   const [email, setEmail] = useState("");

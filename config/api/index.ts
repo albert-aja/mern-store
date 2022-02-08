@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 interface CallAPIProps extends AxiosRequestConfig {
   token?: boolean;
+  serverToken?: string;
 }
 
 export default async function callAPI({
@@ -10,10 +11,17 @@ export default async function callAPI({
   method,
   data,
   token,
+  serverToken,
 }: CallAPIProps) {
   let headers = {};
 
-  if (token) {
+  if (serverToken) {
+    if (serverToken) {
+      headers = {
+        Authorization: `Bearer ${serverToken}`,
+      };
+    }
+  } else if (token) {
     const tokenCookie = Cookies.get("token");
 
     if (tokenCookie) {
@@ -39,9 +47,11 @@ export default async function callAPI({
     };
   }
 
+  const { length } = Object.keys(res.data);
+
   return {
     error: false,
     message: "success",
-    data: res.data.data,
+    data: length > 1 ? res.data : res.data.data,
   };
 }

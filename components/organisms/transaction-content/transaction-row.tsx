@@ -1,25 +1,25 @@
-import cx from 'classnames';
-import Link from 'next/link';
+import NumberFormat from "react-number-format";
+import cx from "classnames";
+import Link from "next/link";
 
 interface transactionProps {
   image: string;
   gameName: string;
   category: string;
-  gameItem: number;
+  gameItem: string;
   price: number;
-  status: 'Pending' | 'Success' | 'Failed';
+  status: string;
+  id: string;
 }
 
 export default function transactionRow(props: transactionProps) {
-  const {
-    image, gameName, category, gameItem, price, status,
-  } = props;
+  const { image, gameName, category, gameItem, price, status, id } = props;
 
   const statusClass = cx({
-    'float-start icon-status': true,
-    pending: status === 'Pending',
-    success: status === 'Success',
-    failed: status === 'Failed',
+    "float-start icon-status": true,
+    pending: status === "pending",
+    success: status === "success",
+    failed: status === "failed",
   });
 
   return (
@@ -42,14 +42,18 @@ export default function transactionRow(props: transactionProps) {
         </div>
       </th>
       <td>
-        <p className="fw-medium color-palette-1 m-0">
-          {gameItem}
-          {' '}
-          Gold
-        </p>
+        <p className="fw-medium color-palette-1 m-0">{gameItem}</p>
       </td>
       <td>
-        <p className="fw-medium color-palette-1 m-0">{price}</p>
+        <p className="fw-medium color-palette-1 m-0">
+          <NumberFormat
+            value={price}
+            prefix="Rp. "
+            displayType="text"
+            thousandSeparator="."
+            decimalSeparator=","
+          />
+        </p>
       </td>
       <td>
         <div>
@@ -60,7 +64,7 @@ export default function transactionRow(props: transactionProps) {
         </div>
       </td>
       <td>
-        <Link href="/member/transaction-detail">
+        <Link href={`/member/transactions/${id}`}>
           <a className="btn btn-status rounded-pill text-sm">Details</a>
         </Link>
       </td>

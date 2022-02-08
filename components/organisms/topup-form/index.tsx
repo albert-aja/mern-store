@@ -1,12 +1,12 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 import {
   BanksTypes,
   NominalsTypes,
   PaymentsTypes,
 } from "../../../services/datatypes";
 import TopUpCard from "../../molecules/topup-card";
-import { toast } from "react-toastify";
-import { useRouter } from "next/router";
 
 interface TopUpFormProps {
   nominals: NominalsTypes[];
