@@ -35,10 +35,10 @@ export default function topUpForm(props: TopUpFormProps) {
 
   const onSubmit = () => {
     if (
-      verifyId === "" ||
-      bankAccName === "" ||
-      Object.keys(nominalItem).length === 0 ||
-      Object.keys(paymentItem).length === 0
+      verifyId === ""
+      || bankAccName === ""
+      || Object.keys(nominalItem).length === 0
+      || Object.keys(paymentItem).length === 0
     ) {
       toast.error("Mohon isi semua data!", {
         theme: "colored",
@@ -56,7 +56,7 @@ export default function topUpForm(props: TopUpFormProps) {
   };
 
   return (
-    <form action="./checkout.html" method="POST">
+    <>
       <div className="pt-md-50 pt-30">
         <div className="">
           <label className="form-label text-lg fw-medium color-palette-1 mb-10">
@@ -98,17 +98,15 @@ export default function topUpForm(props: TopUpFormProps) {
         </p>
         <fieldset id="paymentMethod">
           <div className="row justify-content-between">
-            {payments.map((payment) =>
-              payment.banks.map((bank) => (
-                <TopUpCard
-                  value={bank._id}
-                  mainText={payment.type}
-                  desc={bank.bankName}
-                  radioName="paymentMethod"
-                  onChange={() => onPaymentItemChanged(payment, bank)}
-                />
-              ))
-            )}
+            {payments.map((payment) => payment.banks.map((bank) => (
+              <TopUpCard
+                value={bank._id}
+                mainText={payment.type}
+                desc={bank.bankName}
+                radioName="paymentMethod"
+                onChange={() => onPaymentItemChanged(payment, bank)}
+              />
+            )))}
             <div className="col-lg-4 col-sm-6" />
           </div>
         </fieldset>
@@ -134,6 +132,6 @@ export default function topUpForm(props: TopUpFormProps) {
           Continue
         </button>
       </div>
-    </form>
+    </>
   );
 }

@@ -10,7 +10,9 @@ interface topUpCardProps {
 }
 
 export default function topUpCard(props: Partial<topUpCardProps>) {
-  const { value, mainText, addText, desc, radioName, onChange } = props;
+  const {
+    value, mainText, addText, desc, radioName, onChange,
+  } = props;
   return (
     <label
       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"

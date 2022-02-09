@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
+import Cookies from "js-cookie";
 import { JWTPayloadTypes, UserTypes } from "../../../services/datatypes";
 
 export default function userProfile() {

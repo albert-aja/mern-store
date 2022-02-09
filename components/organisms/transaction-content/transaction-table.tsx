@@ -23,18 +23,24 @@ export default function transactionTable(props: transactionTableProps) {
         </tr>
       </thead>
       <tbody id="list_status_item">
-        {data.map((item: HistoryTransactionTypes) => (
-          <TableRow
-            key={item._id}
-            id={item._id}
-            image={`${IMG}/${item.historyVoucherTopup.thumbnail}`}
-            gameName={item.historyVoucherTopup.gameName}
-            category={item.historyVoucherTopup.category}
-            gameItem={`${item.historyVoucherTopup.coinQuantity} ${item.historyVoucherTopup.coinName}`}
-            price={item.value}
-            status={item.status}
-          />
-        ))}
+        {Object.keys(data).length > 0 ? (
+          data.map((item: HistoryTransactionTypes) => (
+            <TableRow
+              key={item._id}
+              id={item._id}
+              image={`${IMG}/${item.historyVoucherTopup.thumbnail}`}
+              gameName={item.historyVoucherTopup.gameName}
+              category={item.historyVoucherTopup.category}
+              gameItem={`${item.historyVoucherTopup.coinQuantity} ${item.historyVoucherTopup.coinName}`}
+              price={item.value}
+              status={item.status}
+            />
+          ))
+        ) : (
+          <td className="text-center py-4" colSpan={5}>
+            Tidak Ada Data
+          </td>
+        )}
       </tbody>
     </table>
   );

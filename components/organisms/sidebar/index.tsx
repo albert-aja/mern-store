@@ -1,8 +1,8 @@
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import UserProfile from "./user-profile";
 import SidebarFooter from "./footer";
 import MenuItem from "./menu-item";
-import Cookies from "js-cookie";
-import { useRouter } from "next/router";
 
 interface SidebarProps {
   activeMenu: "overview" | "transaction" | "settings";
@@ -40,7 +40,7 @@ export default function sidebar(props: SidebarProps) {
           <MenuItem
             icon="settings"
             text="Settings"
-            link="member/edit-profile"
+            link="/member/edit-profile"
             active={activeMenu === "settings"}
           />
           <MenuItem icon="logout" text="Log Out" onClick={onLogout} />

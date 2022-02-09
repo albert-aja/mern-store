@@ -1,19 +1,19 @@
-import Image from "next/image";
+import { HistoryTransactionTypes } from "../../../services/datatypes";
 import Row from "./row";
 
 interface DetailProps {
-  id: string;
+  data: HistoryTransactionTypes;
 }
 
 export default function transactionDetail(props: DetailProps) {
-  const { id, image, category, status } = props;
+  const { data } = props;
+  const IMG = process.env.NEXT_PUBLIC_IMG;
 
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
         <h2 className="text-4xl fw-bold color-palette-1 mb-30">
-          Details
-          {id}
+          Details {data._id}
         </h2>
         <div className="details">
           <div className="main-content main-content-card overflow-auto">
@@ -22,8 +22,8 @@ export default function transactionDetail(props: DetailProps) {
                 <div className="game-checkout d-flex flex-row align-items-center">
                   <div className="pe-4">
                     <div className="cropped">
-                      <Image
-                        src="/img/Thumbnail-3.png"
+                      <img
+                        src={`${IMG}/${data.historyVoucherTopup.thumbnail}`}
                         width={200}
                         height={130}
                         className="img-fluid"
@@ -33,15 +33,16 @@ export default function transactionDetail(props: DetailProps) {
                   </div>
                   <div>
                     <p className="fw-bold text-xl color-palette-1 mb-10">
-                      Mobile Legends:
-                      <br /> The New Battle 2021
+                      {data.historyVoucherTopup.gameName}
                     </p>
-                    <p className="color-palette-2 m-0">Category: Mobile</p>
+                    <p className="color-palette-2 m-0">
+                      Category: {data.historyVoucherTopup.category}
+                    </p>
                   </div>
                 </div>
                 <div>
-                  <p className="fw-medium text-center label pending m-0 rounded-pill">
-                    Pending
+                  <p className="fw-medium text-center label pending m-0 rounded-pill text-capitalize">
+                    {data.status}
                   </p>
                 </div>
               </div>
@@ -50,14 +51,17 @@ export default function transactionDetail(props: DetailProps) {
                 <h2 className="fw-bold text-xl color-palette-1 mb-20">
                   Purchase Details
                 </h2>
-                <Row label="Your Game ID" value="masayoshizero" />
-                <Row label="Order ID" value="#GG001" />
-                <Row label="Item" value="250 Diamonds" />
-                <Row label="Price" value={2300000} />
-                <Row label="Tax (10%)" value={230000} />
+                <Row label="Your Game ID" value={data.accountUser} />
+                <Row label="Order ID" value={data._id} />
+                <Row
+                  label="Item"
+                  value={`${data.historyVoucherTopup.coinQuantity} ${data.historyVoucherTopup.coinName}`}
+                />
+                <Row label="Price" value={data.historyVoucherTopup.price} />
+                <Row label="Tax (10%)" value={data.tax} />
                 <Row
                   label="Total"
-                  value={2530000}
+                  value={data.value}
                   className="color-palette-4"
                 />
               </div>
@@ -65,11 +69,14 @@ export default function transactionDetail(props: DetailProps) {
                 <h2 className="fw-bold text-xl color-palette-1 mb-20">
                   Payment Informations
                 </h2>
-                <Row label="Your Account Name" value="Masayoshi Angga Zero" />
-                <Row label="Type" value="Worldwide Transfer" />
-                <Row label="Bank Name" value="Mandiri" />
-                <Row label="Bank Account Name" value="PT Store GG Indonesia" />
-                <Row label="Bank Number" value="1800 - 9090 - 2021" />
+                <Row label="Your Account Name" value={data.name} />
+                <Row label="Type" value={data.historyPayment.type} />
+                <Row label="Bank Name" value={data.historyPayment.bankName} />
+                <Row
+                  label="Bank Account Name"
+                  value={data.historyPayment.name}
+                />
+                <Row label="Bank Number" value={data.historyPayment.noRek} />
               </div>
               <div className="d-md-block d-flex flex-column w-100">
                 <a

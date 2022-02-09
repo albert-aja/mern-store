@@ -1,4 +1,4 @@
-import ListContent from '../../molecules/footer-text';
+import ListContent from "../../molecules/footer-text";
 
 interface contentData {
   link: string;
@@ -13,8 +13,8 @@ export default function list(props: listProps) {
   const { contents } = props;
   return (
     <ul className="list-unstyled">
-      {contents.map((e, i) => (
-        <ListContent link={e.link} text={e.text} />
+      {contents.map((e) => (
+        <ListContent key={e.text} link={e.link} text={e.text} />
       ))}
     </ul>
   );

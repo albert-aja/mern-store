@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 export default function heroImage() {
   return (
@@ -25,7 +25,7 @@ export default function heroImage() {
               </div>
             </div>
             <div className="d-flex gap-2">
-              {[...Array(5)].map((e, i) => (
+              {[...Array(5)].map(() => (
                 <Image src="/icon/star.svg" alt="" width={24} height={22} />
               ))}
             </div>

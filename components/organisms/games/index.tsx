@@ -5,6 +5,7 @@ import { GameItemTypes } from "../../../services/datatypes";
 
 export default function FeaturedGames() {
   const [gameList, setGameList] = useState([]);
+
   const getFeaturedGameList = useCallback(async () => {
     const data = await getFeaturedGame();
     setGameList(data);

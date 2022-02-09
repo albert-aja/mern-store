@@ -11,7 +11,9 @@ interface tableRowProps {
 }
 
 export default function tableRow(props: tableRowProps) {
-  const { image, gameName, category, gameItem, price, status } = props;
+  const {
+    image, gameName, category, gameItem, price, status,
+  } = props;
 
   const statusClass = cx({
     "float-start icon-status": true,
@@ -56,7 +58,7 @@ export default function tableRow(props: tableRowProps) {
       <td>
         <div>
           <span className={statusClass} />
-          <p className="fw-medium text-start color-palette-1 m-0 position-relative">
+          <p className="fw-medium text-start color-palette-1 m-0 position-relative text-capitalize">
             {status}
           </p>
         </div>

@@ -4,34 +4,24 @@ import Navbar from "../../components/organisms/navbar/index";
 import Footer from "../../components/organisms/footer/index";
 import TopUpForm from "../../components/organisms/topup-form";
 import TopUpItem from "../../components/organisms/topup-item";
-import { getDetailVoucher } from "../../services/player";
+import { getDetailVoucher, getFeaturedGame } from "../../services/player";
+import {
+  GameItemTypes,
+  NominalsTypes,
+  PaymentsTypes,
+} from "../../services/datatypes";
 
-export default function detail() {
-  const { query, isReady } = useRouter();
-  const [dataItem, setDataItem] = useState({
-    name: "",
-    thumbnail: "",
-    category: {
-      name: "",
-    },
-  });
-  const [nominals, setNominals] = useState([]);
-  const [payment, setPayment] = useState([]);
+interface detailProps {
+  dataItem: GameItemTypes;
+  nominals: NominalsTypes[];
+  payment: PaymentsTypes[];
+}
 
-  const getVoucherDetail = useCallback(async (id) => {
-    const data = await getDetailVoucher(id);
-
-    setDataItem(data.voucher);
-    localStorage.setItem("dataItem", JSON.stringify(data.voucher));
-    setNominals(data.voucher.nominals);
-    setPayment(data.payment);
+export default function detail({ dataItem, nominals, payment }: detailProps) {
+  useEffect(() => {
+    localStorage.setItem("dataItem", JSON.stringify(dataItem));
   }, []);
 
-  useEffect(() => {
-    if (isReady) {
-      getVoucherDetail(query.id);
-    }
-  }, [isReady]);
   return (
     <>
       <Navbar />
@@ -58,4 +48,38 @@ export default function detail() {
       <Footer />
     </>
   );
+}
+
+export async function getStaticPaths() {
+  const data = await getFeaturedGame();
+
+  const paths = data.map((item: GameItemTypes) => ({
+    params: {
+      id: item._id,
+    },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+interface GetStaticProps {
+  params: {
+    id: string;
+  };
+}
+
+export async function getStaticProps({ params }: GetStaticProps) {
+  const { id } = params;
+  const data = await getDetailVoucher(id);
+
+  return {
+    props: {
+      dataItem: data.voucher,
+      nominals: data.voucher.nominals,
+      payment: data.payment,
+    },
+  };
 }

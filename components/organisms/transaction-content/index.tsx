@@ -1,9 +1,9 @@
-import { useEffect, useCallback, useState } from "react";
-import { toast } from "react-toastify";
+import { useCallback, useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
+import { toast } from "react-toastify";
+import { getMemberTransaction } from "../../../services/member";
 import ButtonTab from "./button-tab";
 import TransactionTable from "./transaction-table";
-import { getMemberTransaction } from "../../../services/member";
 
 export default function transactionContent() {
   const [total, setTotal] = useState(0);
@@ -27,7 +27,7 @@ export default function transactionContent() {
     getMemberTransactionApi("all");
   }, []);
 
-  const onTabClicked = (value) => {
+  const onTabClicked = (value: string) => {
     setTab(value);
     getMemberTransactionApi(value);
   };

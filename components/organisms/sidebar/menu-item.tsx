@@ -11,7 +11,9 @@ interface MenuItemProps {
 }
 
 export default function menuItem(props: Partial<MenuItemProps>) {
-  const { icon, text, active, link, onClick } = props;
+  const {
+    icon, text, active, link = "/", onClick,
+  } = props;
   const classItem = cx({
     item: true,
     "mb-30": true,

@@ -13,7 +13,9 @@ interface transactionProps {
 }
 
 export default function transactionRow(props: transactionProps) {
-  const { image, gameName, category, gameItem, price, status, id } = props;
+  const {
+    image, gameName, category, gameItem, price, status, id,
+  } = props;
 
   const statusClass = cx({
     "float-start icon-status": true,
@@ -58,7 +60,7 @@ export default function transactionRow(props: transactionProps) {
       <td>
         <div>
           <span className={statusClass} />
-          <p className="fw-medium text-start color-palette-1 m-0 position-relative">
+          <p className="fw-medium text-start color-palette-1 m-0 position-relative text-capitalize">
             {status}
           </p>
         </div>
